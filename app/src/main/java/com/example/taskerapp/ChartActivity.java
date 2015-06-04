@@ -47,13 +47,22 @@ public class ChartActivity extends ActionBarActivity {
         List<SliceValue> values = new ArrayList<SliceValue>();
         for(int t = 0; t< i.length; t++) {
             SliceValue sliceValue = new SliceValue((float)i[t],ChartUtils.pickColor());
+            if(t==0){
+                sliceValue.setLabel("User "+i[t]+"%");
+            }else if(t==1){
+                sliceValue.setLabel("System "+i[t]+"%");
+            }else if(t==2){
+                sliceValue.setLabel("IOW "+i[t]+"%");
+            }else if(t==3){
+                sliceValue.setLabel("IRQ "+i[t]+"%");
+            }
             values.add(sliceValue);
         }
 
         data = new PieChartData(values);
         data.setHasLabels(true);
         data.setHasLabelsOnlyForSelected(false);
-        data.setHasLabelsOutside(true);
+        data.setHasLabelsOutside(false);
         data.setHasCenterCircle(true);
 
 
@@ -61,7 +70,7 @@ public class ChartActivity extends ActionBarActivity {
 
 
 
-            data.setCenterText1("Hello!");
+            data.setCenterText1("CPU");
 
             // Get roboto-italic font.
             //Typeface tf = Typeface.createFromAsset(getAssets(), "Roboto-Italic.ttf");
@@ -73,7 +82,7 @@ public class ChartActivity extends ActionBarActivity {
 
 
 
-            data.setCenterText2("Charts (Roboto Italic)");
+            data.setCenterText2("Charts usage CPU");
 
             //Typeface tf = Typeface.createFromAsset(getAssets(), "Roboto-Italic.ttf");
 
@@ -89,18 +98,25 @@ public class ChartActivity extends ActionBarActivity {
 
         String tempString = executeTop();
 
-        tempString = tempString.replaceAll(",", "");
+        System.out.println(tempString);
+
+        tempString = tempString.replaceAll(" ", "");
         tempString = tempString.replaceAll("User", "");
         tempString = tempString.replaceAll("System", "");
         tempString = tempString.replaceAll("IOW", "");
         tempString = tempString.replaceAll("IRQ", "");
         tempString = tempString.replaceAll("%", "");
-        for (int i = 0; i < 10; i++) {
+
+        String[] myString = tempString.split(",");
+        int[] cpuUsageAsInt = new int[myString.length];
+
+        /*for (int i = 0; i < 10; i++) {
             tempString = tempString.replaceAll("  ", " ");
         }
         tempString = tempString.trim();
         String[] myString = tempString.split(" ");
         int[] cpuUsageAsInt = new int[myString.length];
+        */
         for (int i = 0; i < myString.length; i++) {
             myString[i] = myString[i].trim();
             cpuUsageAsInt[i] = Integer.parseInt(myString[i]);
