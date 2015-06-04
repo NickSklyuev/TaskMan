@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TaskerApp</string>
+<string name="main_title_layer">ViP Tasker Platinum</string>
+    <string name="btn_task_title">Kill selected programs</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>btn_task
+</resources>
