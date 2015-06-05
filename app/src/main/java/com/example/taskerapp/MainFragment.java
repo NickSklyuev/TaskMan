@@ -1,12 +1,17 @@
 package com.example.taskerapp;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -21,46 +26,75 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
-public class ChartActivity extends ActionBarActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link MainFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link MainFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MainFragment extends Fragment {
 
+    View v;
 
     int[] cpui;
 
     TextView cpuUsageText, totalMemoryText, usageMemoryText, processStartedText;
 
-    private boolean hasLabels = false;
-    private boolean hasLabelsOutside = false;
-    private boolean hasCenterCircle = false;
-    private boolean hasCenterText1 = false;
-    private boolean hasCenterText2 = false;
-    private boolean isExploded = false;
-    private boolean hasLabelForSelected = false;
     Handler handler = new Handler(Looper.getMainLooper());
 
     BarChart bchart;
 
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment MainFragment.
+     */
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        //args.putString(ARG_PARAM1, param1);
+        //args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public MainFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chart);
+        if (getArguments() != null) {
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+            //mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
 
-        /*chart = (PieChartView) findViewById(R.id.chart);
-        generateData();
-        */
-        bchart = (BarChart) findViewById(R.id.chart_bar);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        v = inflater.inflate(R.layout.activity_chart, container, false);
 
 
-        cpuUsageText = (TextView) findViewById(R.id.cpuUsage);
-        totalMemoryText = (TextView) findViewById(R.id.totalMemory);
-        usageMemoryText = (TextView) findViewById(R.id.usageMamory);
-        processStartedText = (TextView) findViewById(R.id.processStarted);
+        bchart = (BarChart) v.findViewById(R.id.chart_bar);
 
 
-        Timer timer = new Timer();
+        cpuUsageText = (TextView) v.findViewById(R.id.cpuUsage);
+        totalMemoryText = (TextView) v.findViewById(R.id.totalMemory);
+        usageMemoryText = (TextView) v.findViewById(R.id.usageMamory);
+        processStartedText = (TextView) v.findViewById(R.id.processStarted);
+
+
+        /*Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -74,11 +108,12 @@ public class ChartActivity extends ActionBarActivity {
                 });
             }
 
-        }, 0, 5000);
+        }, 0, 5000);*/
 
-        //chart.setOnValueTouchListener(new ValueTouchListener());
+        showProcessorChart();
+
+        return v;
     }
-
 
     public void showProcessorChart(){
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
@@ -95,7 +130,7 @@ public class ChartActivity extends ActionBarActivity {
 
 
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(getActivity().ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(mi);
         long availableMegs = mi.availMem / 1048576L;
         long totalMegs = mi.totalMem / 1048576L;
@@ -103,7 +138,7 @@ public class ChartActivity extends ActionBarActivity {
         totalMemoryText.setText(totalMegs+" Mb");
         usageMemoryText.setText((totalMegs-availableMegs)+" Mb");
 
-        processStartedText.setText(CommonLibrary.GetRunningProcess(this, activityManager).size()+" ");
+        processStartedText.setText(CommonLibrary.GetRunningProcess(getActivity(), activityManager).size()+" ");
 
         entries.add(new BarEntry((int) c, 0));
 
@@ -229,5 +264,37 @@ public class ChartActivity extends ActionBarActivity {
         return returnString;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
 
 }
