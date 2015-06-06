@@ -16,10 +16,12 @@ import java.util.ArrayList;
 public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.ViewHolder> {
     private ArrayList<ProcessDetailInfo> mDetailList;
 
+    public OnItemClickListener mItemClickListener;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         // each data item is just a string in this case
         public TextView label;
         public ImageView icon;
@@ -30,7 +32,9 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
             icon = (ImageView) v.findViewById(R.id.list_icon);
             selector = (com.gc.materialdesign.views.CheckBox) v.findViewById(R.id.checkBox);
 
-            v.setOnClickListener(new View.OnClickListener() {
+            v.setOnClickListener(this);
+
+            /*v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (selector.isCheck()){
@@ -39,8 +43,24 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
                         selector.setChecked(true);
                     }
                 }
-            });
+            });*/
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(v, getPosition()); //OnItemClickListener mItemClickListener;
+            }
+
+        }
+    }
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view , int position);
+    }
+
+    public void SetOnItemClickListener(OnItemClickListener mItemClickListener){
+        this.mItemClickListener = mItemClickListener;
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -70,6 +90,12 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
         if (localDrawable == null)
             holder.icon.setImageResource(android.R.drawable.ic_menu_info_details);
         holder.icon.setImageDrawable(localDrawable);
+
+        holder.selector.setChecked(true);
+
+        if(!localProcessDetailInfo.getSelected()){
+            holder.selector.setChecked(false);
+        }
 
     }
 

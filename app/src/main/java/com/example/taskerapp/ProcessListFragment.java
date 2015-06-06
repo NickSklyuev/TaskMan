@@ -33,7 +33,7 @@ public class ProcessListFragment extends Fragment {
     View v;
 
     private RecyclerView ChatMessagesViewRecycle;
-    private RecyclerView.Adapter mAdapter;
+    private ProcessListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -86,13 +86,15 @@ public class ProcessListFragment extends Fragment {
 
         ChatMessagesViewRecycle = (RecyclerView) v.findViewById(R.id.process_list);
 
-        ChatMessagesViewRecycle.setHasFixedSize(true);
+        ChatMessagesViewRecycle.setHasFixedSize(false);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         ChatMessagesViewRecycle.setLayoutManager(mLayoutManager);
 
         mActivityManager = ((ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE));
+
+
 
         // specify an adapter (see also next example)
 
@@ -176,8 +178,8 @@ public class ProcessListFragment extends Fragment {
     private void killAllTasks(){
         CommonLibrary.KillProcess(getActivity(), mDetailList, mActivityManager, true);
         getRunningProcess();
-        mAdapter = new ProcessListAdapter(mDetailList);
-        ChatMessagesViewRecycle.setAdapter(mAdapter);
+        //mAdapter = new ProcessListAdapter(mDetailList);
+        //ChatMessagesViewRecycle.setAdapter(mAdapter);
         refreshMem();
         android.util.Log.e("ATK", "Manually kill ends");
     }
@@ -188,6 +190,17 @@ public class ProcessListFragment extends Fragment {
 
         //mAdapter = new TaskListAdapters.ProcessListAdapter(getActivity(), mDetailList);
         mAdapter = new ProcessListAdapter(mDetailList);
+        mAdapter.SetOnItemClickListener(new ProcessListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                com.gc.materialdesign.views.CheckBox selector = (com.gc.materialdesign.views.CheckBox) v.findViewById(R.id.checkBox);
+                if (selector.isCheck()){
+                    selector.setChecked(false);
+                }else{
+                    selector.setChecked(true);
+                }
+            }
+        });
         ChatMessagesViewRecycle.setAdapter(mAdapter);
         Log.i("Task_man", " adapter " + mAdapter);
     }
