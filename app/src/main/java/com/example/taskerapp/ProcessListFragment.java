@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
+
 import java.util.ArrayList;
 
 
@@ -37,7 +39,7 @@ public class ProcessListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
-    private ArrayList<ProcessDetailInfo> mDetailList;
+    public static ArrayList<ProcessDetailInfo> mDetailList;
     ActivityManager mActivityManager = null;
     //private TaskListAdapters.ProcessListAdapter mpAdapter;
     private Handler mHandler;
@@ -65,6 +67,7 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         //ProcessDetailInfo.IGNORE_PREFS_NAME = getActivity().getPackageName();
         if (getArguments() != null) {
             //mParam1 = getArguments().getString(ARG_PARAM1);
@@ -76,6 +79,7 @@ public class ProcessListFragment extends Fragment {
     public void onResume(){
         super.onResume();
         refresh();//main method
+        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -86,7 +90,7 @@ public class ProcessListFragment extends Fragment {
 
         ChatMessagesViewRecycle = (RecyclerView) v.findViewById(R.id.process_list);
 
-        ChatMessagesViewRecycle.setHasFixedSize(false);
+        ChatMessagesViewRecycle.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -95,6 +99,14 @@ public class ProcessListFragment extends Fragment {
         mActivityManager = ((ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE));
 
 
+        ButtonRectangle button = (ButtonRectangle) v.findViewById(R.id.button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                killAllTasks();
+            }
+        });
 
         // specify an adapter (see also next example)
 
@@ -192,16 +204,17 @@ public class ProcessListFragment extends Fragment {
         mAdapter = new ProcessListAdapter(mDetailList);
         mAdapter.SetOnItemClickListener(new ProcessListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                com.gc.materialdesign.views.CheckBox selector = (com.gc.materialdesign.views.CheckBox) v.findViewById(R.id.checkBox);
-                if (selector.isCheck()){
-                    selector.setChecked(false);
-                }else{
-                    selector.setChecked(true);
+            public void onItemClick(View view, int position, ProcessDetailInfo localProcessDetailInfo) {
+                if (localProcessDetailInfo.getSelected()) {
+                    localProcessDetailInfo.setSelected(false);
+                } else {
+                    localProcessDetailInfo.setSelected(true);
                 }
+                //killAllTasks();
             }
         });
         ChatMessagesViewRecycle.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         Log.i("Task_man", " adapter " + mAdapter);
     }
 

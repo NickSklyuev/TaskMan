@@ -1,10 +1,13 @@
 package com.example.taskerapp;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,38 +28,47 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
         // each data item is just a string in this case
         public TextView label;
         public ImageView icon;
-        public com.gc.materialdesign.views.CheckBox selector;
-        public ViewHolder(View v) {
+        public CheckBox selector;
+        ProcessDetailInfo localProcessDetailInfo;
+        public ViewHolder(final View v) {
             super(v);
+
             label = (TextView) v.findViewById(R.id.list_name);
             icon = (ImageView) v.findViewById(R.id.list_icon);
-            selector = (com.gc.materialdesign.views.CheckBox) v.findViewById(R.id.checkBox);
-
+            selector = (CheckBox) v.findViewById(R.id.checkBox);
             v.setOnClickListener(this);
 
-            /*v.setOnClickListener(new View.OnClickListener() {
+            //selector.setChecked(localProcessDetailInfo.getSelected());
+
+            selector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
-                    if (selector.isCheck()){
-                        selector.setChecked(false);
-                    }else{
-                        selector.setChecked(true);
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        localProcessDetailInfo.setSelected(true);
+                    } else {
+                        localProcessDetailInfo.setSelected(false);
                     }
                 }
-            });*/
+            });
         }
 
         @Override
         public void onClick(View v) {
             if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(v, getPosition()); //OnItemClickListener mItemClickListener;
+                mItemClickListener.onItemClick(v, getPosition(),localProcessDetailInfo); //OnItemClickListener mItemClickListener;
+            }
+
+            if (selector.isChecked()){
+                selector.setChecked(false);
+            }else{
+                selector.setChecked(true);
             }
 
         }
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(View view , int position);
+        public void onItemClick(View view , int position, ProcessDetailInfo localProcessDetailInfo);
     }
 
     public void SetOnItemClickListener(OnItemClickListener mItemClickListener){
@@ -76,6 +88,8 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_main, parent, false);
 
+
+
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -85,17 +99,22 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         ProcessDetailInfo localProcessDetailInfo = (ProcessDetailInfo)mDetailList.get(position);
 
+        holder.localProcessDetailInfo = localProcessDetailInfo;
+
         holder.label.setText(localProcessDetailInfo.getLabel());
         Drawable localDrawable = localProcessDetailInfo.getIcon();
         if (localDrawable == null)
             holder.icon.setImageResource(android.R.drawable.ic_menu_info_details);
         holder.icon.setImageDrawable(localDrawable);
 
-        holder.selector.setChecked(true);
+        //holder.selector.clearAnimation();
+        holder.selector.setChecked(localProcessDetailInfo.getSelected());
 
-        if(!localProcessDetailInfo.getSelected()){
-            holder.selector.setChecked(false);
-        }
+
+        if (localProcessDetailInfo.Importance > 300)
+            holder.label.setTextColor(Color.BLACK);
+        else
+            holder.label.setTextColor(Color.BLUE);
 
     }
 

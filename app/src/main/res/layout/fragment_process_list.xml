@@ -2,12 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.example.taskerapp.ProcessListFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/process_list"
-        android:scrollbars="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:paddingTop="5dp" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/process_list"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:paddingTop="5dp"
+            android:layout_above="@+id/button" />
+
+        <com.gc.materialdesign.views.ButtonRectangle
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1E88E5"
+            android:text="Kill all process"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 
 </FrameLayout>
