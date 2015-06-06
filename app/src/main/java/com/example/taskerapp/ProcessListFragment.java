@@ -65,11 +65,19 @@ public class ProcessListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ProcessDetailInfo.IGNORE_PREFS_NAME = getActivity().getPackageName();
         if (getArguments() != null) {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        refresh();//main method
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

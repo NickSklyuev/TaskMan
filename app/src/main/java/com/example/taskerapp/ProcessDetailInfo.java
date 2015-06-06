@@ -3,22 +3,20 @@ package com.example.taskerapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 public class ProcessDetailInfo{
 	private static HashMap<String, ResolveInfo> AppsTable;
-	public static final String IGNORE_PREFS_NAME = "IgnoredPackage";
+	public static final String IGNORE_PREFS_NAME = "com.example.taskerapp";
 	public static final String SELECT_PREFS_NAME = "CleanoidUnselectedPackage";
 	static SharedPreferences.Editor mIgnoredAppEditor;
 	public static SharedPreferences mIgnoredAppSettings;

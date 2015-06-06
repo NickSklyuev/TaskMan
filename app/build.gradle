@@ -23,7 +23,10 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    jcenter()
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -35,5 +38,7 @@ dependencies {
 
     compile 'com.ogaclejapan.smarttablayout:library:1.1.3@aar'
     compile 'com.ogaclejapan.smarttablayout:utils-v4:1.1.3@aar'
+
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
 
 }
