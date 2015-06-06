@@ -111,7 +111,7 @@ public class MainFragment extends Fragment {
 
         }, 0, 5000);*/
 
-        showProcessorChart();
+      showProcessorChart();
 
         return v;
     }
