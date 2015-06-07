@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskerApp</string>
+    <string name="app_name">Speedy Tasker</string>
 <string name="main_title_layer">ViP Tasker Platinum</string>
     <string name="btn_task_title">Kill selected programs</string>
     <string name="hello_world">Hello world!</string>

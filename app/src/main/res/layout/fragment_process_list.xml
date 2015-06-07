@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#1E88E5"
-            android:text="Kill all process"
+            android:text="Закрыть отмеченные"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
