@@ -6,6 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+import com.parse.ParseAnalytics;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import prof.magnitos.speedytask.R;
 import prof.magnitos.speedytask.components.AsyncResponse;
@@ -25,6 +29,12 @@ public class SplashActiv extends Activity {
 
         ProgressBarCircularIndeterminate dp = (ProgressBarCircularIndeterminate) findViewById(R.id.dialogProgress);
         dp.setBackgroundColor(Color.WHITE);
+
+
+        Map<String, String> dimensions = new HashMap<String, String>();
+        dimensions.put("type", "load_application");
+        dimensions.put("activity", "splash_screen");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
 
 
         new MainAsync(new AsyncResponse() {

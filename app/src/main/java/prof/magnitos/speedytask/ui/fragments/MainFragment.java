@@ -23,12 +23,15 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.parse.ParseAnalytics;
 import com.squareup.otto.Subscribe;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import prof.magnitos.speedytask.R;
 import prof.magnitos.speedytask.components.AsyncResponse;
@@ -179,6 +182,12 @@ public class MainFragment extends Fragment {
                 processStartedText.setText(CommonLibrary.GetRunningProcess(getActivity(), activityManager).size() + " ");
             }
             mSwipeRefreshLayout.setRefreshing(false);
+
+            Map<String, String> dimensions = new HashMap<String, String>();
+            dimensions.put("type", "update");
+            dimensions.put("activity", "system_info");
+            ParseAnalytics.trackEventInBackground("read", dimensions);
+
         }catch (Exception e){
             e.printStackTrace();
         }

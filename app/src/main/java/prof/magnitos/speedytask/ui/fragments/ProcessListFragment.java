@@ -19,8 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.parse.ParseAnalytics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import prof.magnitos.speedytask.R;
 import prof.magnitos.speedytask.adapters.ProcessListAdapter;
@@ -200,7 +203,6 @@ public class ProcessListFragment extends Fragment {
     }
 
     public void showToast(String mtext) {
-        //������� � ���������� ��������� �����������
         Toast toast = Toast.makeText(getActivity(),
                 mtext,
                 Toast.LENGTH_SHORT);
@@ -208,10 +210,17 @@ public class ProcessListFragment extends Fragment {
         toast.show();
     }
     private void killAllTasks(){
+
+        Map<String, String> dimensions = new HashMap<String, String>();
+        dimensions.put("type", "kill_all");
+        dimensions.put("activity", "process_list");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
+
         CommonLibrary.KillProcess(getActivity(), mDetailList, mActivityManager, true);
         getRunningProcess();
         //mAdapter = new ProcessListAdapter(mDetailList);
         //ChatMessagesViewRecycle.setAdapter(mAdapter);
+
         refreshMem();
         android.util.Log.e("ATK", "Manually kill ends");
     }
@@ -249,6 +258,10 @@ public class ProcessListFragment extends Fragment {
             }
         }).execute(new Object[]{});
         mSwipeRefreshLayout.setRefreshing(false);
+        Map<String, String> dimensions = new HashMap<String, String>();
+        dimensions.put("type", "load_list");
+        dimensions.put("activity", "process_list");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
     }
 
 
