@@ -1,4 +1,4 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 public class ProcessDetailInfo{
 	private static HashMap<String, ResolveInfo> AppsTable;
-	public static final String IGNORE_PREFS_NAME = "com.example.taskerapp";
+	public static final String IGNORE_PREFS_NAME = "prof.magnitos.speedytask.taskerapp";
 	public static final String SELECT_PREFS_NAME = "CleanoidUnselectedPackage";
 	static SharedPreferences.Editor mIgnoredAppEditor;
 	public static SharedPreferences mIgnoredAppSettings;

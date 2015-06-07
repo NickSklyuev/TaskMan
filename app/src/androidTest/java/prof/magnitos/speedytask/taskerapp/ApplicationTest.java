@@ -1,4 +1,4 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask.taskerapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

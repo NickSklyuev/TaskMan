@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.taskerapp.TabActivity">
+    tools:context="prof.magnitos.speedytask.TabActivity">
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/viewpagertab"
@@ -12,12 +12,12 @@
         app:stl_indicatorAlwaysInCenter="false"
         app:stl_indicatorInFront="false"
         app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorColor="#40C4FF"
+        app:stl_indicatorColor="#1E88E5"
         app:stl_indicatorThickness="4dp"
         app:stl_indicatorCornerRadius="2dp"
         app:stl_underlineColor="#4D000000"
         app:stl_underlineThickness="1dp"
-        app:stl_dividerColor="#ffffff"
+        app:stl_dividerColor="#1E88E5"
         app:stl_dividerThickness="0dp"
         app:stl_defaultTabBackground="?attr/selectableItemBackground"
         app:stl_defaultTabTextAllCaps="true"

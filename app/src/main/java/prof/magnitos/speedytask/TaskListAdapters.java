@@ -1,4 +1,4 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/*import com.rechild.advancedtaskkillerpro.R;*/
-
 import java.util.ArrayList;
+
+/*import com.rechild.advancedtaskkillerpro.R;*/
 
 public class TaskListAdapters{
 	public static class ListViewItem{

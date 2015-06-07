@@ -1,4 +1,4 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask;
 
 import android.app.ActivityManager;
 import android.graphics.Color;

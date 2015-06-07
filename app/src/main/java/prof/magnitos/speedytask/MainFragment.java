@@ -1,13 +1,15 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.squareup.otto.Subscribe;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,7 +43,7 @@ public class MainFragment extends Fragment {
 
     View v;
 
-    int[] cpui;
+    public static int[] cpui;
 
     TextView cpuUsageText, totalMemoryText, usageMemoryText, processStartedText;
 
@@ -49,6 +52,10 @@ public class MainFragment extends Fragment {
     BarChart bchart;
 
     private OnFragmentInteractionListener mListener;
+
+    public static BarData datas = null;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     /**
      * Use this factory method to create a new instance of
@@ -69,10 +76,17 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Subscribe
+    public void onAvatarChanged(ArrayList<Integer> inter) {
+        render();
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        BusProvider.getInstance().register(this);
         if (getArguments() != null) {
             //mParam1 = getArguments().getString(ARG_PARAM1);
             //mParam2 = getArguments().getString(ARG_PARAM2);
@@ -85,6 +99,21 @@ public class MainFragment extends Fragment {
 
         v = inflater.inflate(R.layout.activity_chart, container, false);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new MainAsync(new AsyncResponse() {
+                    @Override
+                    public void processFinish(Object output) {
+                        render();
+
+                    }
+                }).execute(new Object[]{});
+            }
+        });
+
 
         bchart = (BarChart) v.findViewById(R.id.chart_bar);
 
@@ -94,29 +123,62 @@ public class MainFragment extends Fragment {
         usageMemoryText = (TextView) v.findViewById(R.id.usageMamory);
         processStartedText = (TextView) v.findViewById(R.id.processStarted);
 
-
-        /*Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            @Override
-            public void run() {
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        showProcessorChart();
-                    }
-                });
-            }
-
-        }, 0, 5000);*/
-
-      showProcessorChart();
+        render();
 
         return v;
     }
 
-    public void showProcessorChart(){
+    public void render(){
+        try {
+            if (datas == null) {
+                showProcessorChart();
+            }
+
+            bchart.setDescription("");
+            bchart.setDrawGridBackground(false);
+
+            XAxis xAxis = bchart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(true);
+
+            YAxis leftAxis = bchart.getAxisLeft();
+            leftAxis.setLabelCount(5);
+            leftAxis.setSpaceTop(15f);
+
+            YAxis rightAxis = bchart.getAxisRight();
+            rightAxis.setLabelCount(5);
+            rightAxis.setSpaceTop(15f);
+
+            bchart.setData(datas);
+            bchart.animateY(0, Easing.EasingOption.EaseInCubic);
+
+            if (cpui != null) {
+
+                int c = 0;
+
+                for (int t = 0; t < cpui.length; t++) {
+                    c += cpui[t];
+                }
+
+                ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+                ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+                activityManager.getMemoryInfo(mi);
+                long availableMegs = mi.availMem / 1048576L;
+                long totalMegs = mi.totalMem / 1048576L;
+
+                cpuUsageText.setText(c + "%");
+                totalMemoryText.setText(totalMegs + " Mb");
+                usageMemoryText.setText((totalMegs - availableMegs) + " Mb");
+
+                processStartedText.setText(CommonLibrary.GetRunningProcess(getActivity(), activityManager).size() + " ");
+            }
+            mSwipeRefreshLayout.setRefreshing(false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void showProcessorChart(){
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
         cpui = getCpuUsageStatistic();
@@ -127,19 +189,15 @@ public class MainFragment extends Fragment {
             c+=cpui[t];
         }
 
-        cpuUsageText.setText(c+"%");
+        //cpuUsageText.setText(c+"%");
 
 
-        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(getActivity().ACTIVITY_SERVICE);
-        activityManager.getMemoryInfo(mi);
-        long availableMegs = mi.availMem / 1048576L;
-        long totalMegs = mi.totalMem / 1048576L;
 
-        totalMemoryText.setText(totalMegs+" Mb");
-        usageMemoryText.setText((totalMegs-availableMegs)+" Mb");
 
-        processStartedText.setText(CommonLibrary.GetRunningProcess(getActivity(), activityManager).size()+" ");
+        //totalMemoryText.setText(totalMegs+" Mb");
+        //usageMemoryText.setText((totalMegs-availableMegs)+" Mb");
+
+        //processStartedText.setText(CommonLibrary.GetRunningProcess(getActivity(), activityManager).size()+" ");
 
         entries.add(new BarEntry((int) c, 0));
 
@@ -175,41 +233,13 @@ public class MainFragment extends Fragment {
         BarData cd = new BarData(m, sets);
 
 
-        BarData data = cd;
-
-        //data.setValueTypeface(mTf);
-        data.setValueTextColor(Color.BLACK);
-        bchart.setDescription("");
-        bchart.setDrawGridBackground(false);
-
-        XAxis xAxis = bchart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        //xAxis.setTypeface(mTf);
-        xAxis.setDrawGridLines(true);
-
-        YAxis leftAxis = bchart.getAxisLeft();
-        //leftAxis.setTypeface(mTf);
-        leftAxis.setLabelCount(5);
-        leftAxis.setSpaceTop(15f);
-
-        YAxis rightAxis = bchart.getAxisRight();
-        //rightAxis.setTypeface(mTf);
-        rightAxis.setLabelCount(5);
-        rightAxis.setSpaceTop(15f);
-
-
-
-        // set data
-        bchart.setData(data);
-
-        // do not forget to refresh the chart
-//            holder.chart.invalidate();
-        bchart.animateY(0, Easing.EasingOption.EaseInCubic);
+        datas = cd;
+        datas.setValueTextColor(Color.BLACK);
     }
 
 
 
-    private int[] getCpuUsageStatistic() {
+    public static int[] getCpuUsageStatistic() {
 
         String tempString = executeTop();
 
@@ -239,7 +269,7 @@ public class MainFragment extends Fragment {
         return cpuUsageAsInt;
     }
 
-    private String executeTop() {
+    public static String executeTop() {
         java.lang.Process p = null;
         BufferedReader in = null;
         String returnString = null;

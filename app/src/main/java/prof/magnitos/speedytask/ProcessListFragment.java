@@ -1,4 +1,4 @@
-package com.example.taskerapp;
+package prof.magnitos.speedytask;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class ProcessListFragment extends Fragment {
     private RecyclerView ChatMessagesViewRecycle;
     private ProcessListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public static ArrayList<ProcessDetailInfo> mDetailList;
@@ -87,6 +90,15 @@ public class ProcessListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_process_list, container, false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         ChatMessagesViewRecycle = (RecyclerView) v.findViewById(R.id.process_list);
 
@@ -216,6 +228,20 @@ public class ProcessListFragment extends Fragment {
         ChatMessagesViewRecycle.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         Log.i("Task_man", " adapter " + mAdapter);
+        new MainAsync(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+
+                ArrayList<Integer> inter = new ArrayList<Integer>();
+
+                inter.add(0);
+
+                BusProvider.getInstance().post(inter);
+
+            }
+        }).execute(new Object[]{});
+        mSwipeRefreshLayout.setRefreshing(false);
     }
+
 
 }
