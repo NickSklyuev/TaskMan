@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.ui.fragments;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -21,6 +21,14 @@ import android.widget.Toast;
 import com.gc.materialdesign.views.ButtonRectangle;
 
 import java.util.ArrayList;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.adapters.ProcessListAdapter;
+import prof.magnitos.speedytask.components.AsyncResponse;
+import prof.magnitos.speedytask.components.BusProvider;
+import prof.magnitos.speedytask.components.CommonLibrary;
+import prof.magnitos.speedytask.components.MainAsync;
+import prof.magnitos.speedytask.components.ProcessDetailInfo;
 
 
 /**
@@ -177,7 +185,7 @@ public class ProcessListFragment extends Fragment {
             mHandler = new Handler(){
                 public void handleMessage(Message paramMessage){
                     try{
-                        String str = "Available Memory: " + CommonLibrary.MemoryToString(
+                        String str = getResources().getString(R.string.available_label)+": " + CommonLibrary.MemoryToString(
                                 CommonLibrary.getAvaliableMemory(mActivityManager));
                         showToast(str);
                         // this.setTitle(str + "  " + Setting.getAutoKillInfo());

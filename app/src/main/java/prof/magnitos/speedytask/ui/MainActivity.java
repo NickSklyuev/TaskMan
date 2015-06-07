@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.ui;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -20,6 +20,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.adapters.TaskListAdapters;
+import prof.magnitos.speedytask.components.CommonLibrary;
+import prof.magnitos.speedytask.components.ProcessDetailInfo;
 
 
 public class MainActivity extends ActionBarActivity

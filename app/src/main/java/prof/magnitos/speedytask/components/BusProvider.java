@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.components;
 
 import android.os.Handler;
 import android.os.Looper;

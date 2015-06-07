@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.adapters;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.components.ProcessDetailInfo;
 
 /**
  * Created by REstoreService on 05.06.15.
@@ -114,7 +117,7 @@ public class ProcessListAdapter extends RecyclerView.Adapter<ProcessListAdapter.
         if (localProcessDetailInfo.Importance > 300)
             holder.label.setTextColor(Color.BLACK);
         else
-            holder.label.setTextColor(Color.BLUE);
+            holder.label.setTextColor(holder.label.getResources().getColor(R.color.primary));
 
     }
 

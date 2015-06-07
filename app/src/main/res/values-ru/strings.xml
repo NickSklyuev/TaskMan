@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Speedy Tasker</string>
+
+    <string name="sys_info_label">Информация о системе</string>
+    <string name="proc_list_label">Список процессов</string>
+    <string name="available_label">Доступно памяти</string>
+
+    <string name="cpu_usage_label">Процессор используется</string>
+    <string name="total_mamory_label">Всего памяти</string>
+    <string name="memory_usage_label">Используется памяти</string>
+    <string name="process_started_label">Процессов запущено</string>
+
+    <string name="btn_task_title">Закрыть выбраные процессы</string>
+
+    <string name="app_loading_label">Загрузка приложения...</string>
+</resources>

@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.components;
 
 /**
  * Created by REstoreService on 07.06.15.

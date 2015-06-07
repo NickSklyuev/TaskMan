@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.ui.fragments;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -29,6 +29,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.components.AsyncResponse;
+import prof.magnitos.speedytask.components.BusProvider;
+import prof.magnitos.speedytask.components.CommonLibrary;
+import prof.magnitos.speedytask.components.MainAsync;
 
 
 /**

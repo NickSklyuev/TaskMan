@@ -1,6 +1,8 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.components;
 
 import android.os.AsyncTask;
+
+import prof.magnitos.speedytask.ui.fragments.MainFragment;
 
 /**
  * Created by REstoreService on 07.06.15.

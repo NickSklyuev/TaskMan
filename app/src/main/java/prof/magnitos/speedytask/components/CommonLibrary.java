@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.components;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

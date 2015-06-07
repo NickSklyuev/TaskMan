@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.ui;
 
 import android.app.ActivityManager;
 import android.graphics.Color;
@@ -23,6 +23,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.components.CommonLibrary;
 
 
 public class ChartActivity extends ActionBarActivity {

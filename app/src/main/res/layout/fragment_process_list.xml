@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="prof.magnitos.speedytask.ProcessListFragment">
+    android:layout_height="match_parent" tools:context="prof.magnitos.speedytask.ui.fragments.ProcessListFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#1E88E5"
-            android:text="Закрыть отмеченные"
+            android:text="@string/btn_task_title"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>

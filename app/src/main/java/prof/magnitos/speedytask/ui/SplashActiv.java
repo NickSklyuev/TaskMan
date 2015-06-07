@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+
+import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.components.AsyncResponse;
+import prof.magnitos.speedytask.components.MainAsync;
 
 /**
  * Created by  on 06.06.2015.

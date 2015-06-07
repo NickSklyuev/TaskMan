@@ -1,4 +1,4 @@
-package prof.magnitos.speedytask;
+package prof.magnitos.speedytask.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,14 +12,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/*import com.rechild.advancedtaskkillerpro.R;*/
+/*import com.rechild.advancedtaskkillerpro.R;*/import prof.magnitos.speedytask.R;
+import prof.magnitos.speedytask.components.ProcessDetailInfo;
 
 public class TaskListAdapters{
 	public static class ListViewItem{
-		ProcessDetailInfo detailProcess;
-		ImageView icon;
-		ImageView iconCheck;
-		TextView text_name;
+		public ProcessDetailInfo detailProcess;
+		public ImageView icon;
+		public ImageView iconCheck;
+		public TextView text_name;
 	}
 
 	public static final class ProcessListAdapter extends BaseAdapter{
