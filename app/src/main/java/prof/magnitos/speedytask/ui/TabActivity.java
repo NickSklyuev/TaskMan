@@ -27,6 +27,8 @@ public class TabActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
 
+
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         ParsePush.subscribeInBackground("Everyone", new SaveCallback() {

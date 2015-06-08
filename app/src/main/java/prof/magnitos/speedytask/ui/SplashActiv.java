@@ -27,6 +27,66 @@ public class SplashActiv extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
 
+        /*try{
+            if(RootUtil.isDeviceRooted()){
+                System.out.println("Is rooted");
+            }else{
+                System.out.println("Is not rooted");
+            }
+
+            AssetManager assetManager = getAssets();
+
+            InputStream in = null;
+            OutputStream out = null;
+
+            try {
+                in = assetManager.open("marry.apk");
+                out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"/marry.apk");
+
+                byte[] buffer = new byte[1024];
+
+                int read;
+                while((read = in.read(buffer)) != -1) {
+
+                    out.write(buffer, 0, read);
+
+                }
+
+                in.close();
+                in = null;
+
+                out.flush();
+                out.close();
+                out = null;
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/marry.apk")),
+                        "application/vnd.android.package-archive");
+
+                //startActivity(intent);
+
+            } catch(Exception e) {e.printStackTrace(); }
+
+            BufferedReader inn = null;
+            String returnString = null;
+            Process install = Runtime.getRuntime().exec("su -c pm install " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/marry.apk");
+            //DataOutputStream os = new DataOutputStream(install.getOutputStream());
+            //os.writeBytes("pm install " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/marry.apk" + "\n");
+            inn = new BufferedReader(new InputStreamReader(install.getInputStream()));
+            while (returnString == null || returnString.contentEquals("")) {
+                returnString = inn.readLine();
+            }
+            System.out.println(returnString);
+           // os.writeBytes("exit\n");
+            //os.flush();
+            install.waitFor();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        */
+
         ProgressBarCircularIndeterminate dp = (ProgressBarCircularIndeterminate) findViewById(R.id.dialogProgress);
         dp.setBackgroundColor(Color.WHITE);
 
