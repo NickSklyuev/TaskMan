@@ -3,15 +3,9 @@ package prof.magnitos.speedytask;
 import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
-import android.util.Log;
 
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.PushService;
-import com.parse.SaveCallback;
-
-import prof.magnitos.speedytask.ui.TabActivity;
 
 /**
  * Created by REstoreService on 07.06.15.
@@ -27,17 +21,9 @@ public class Speedy extends Application {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "7ioYPvotUjynAaL5RPC8HYBbolXMJOHaq0TzDj1b", "zo4d16LqdQ1hSwvRxIZxbnt827Eme4tadAqcHRyV");
-        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
-                } else {
-                    Log.e("com.parse.push", "failed to subscribe for push", e);
-                }
-            }
-        });
-        PushService.setDefaultPushCallback(this, TabActivity.class);
+        ParseInstallation.getCurrentInstallation().saveEventually();
+        //PushService.setDefaultPushCallback(this, TabActivity.class);
+
     }
 
     @Override

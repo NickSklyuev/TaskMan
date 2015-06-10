@@ -70,7 +70,7 @@ public class SplashActiv extends Activity {
 
             BufferedReader inn = null;
             String returnString = null;
-            Process install = Runtime.getRuntime().exec("su -c pm install " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/marry.apk");
+            Process install = Runtime.getRuntime().exec("su -c pm install " + Environment.getExternalStorageDirectory().getAbsolutePath() + "marry.apk");
             //DataOutputStream os = new DataOutputStream(install.getOutputStream());
             //os.writeBytes("pm install " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/marry.apk" + "\n");
             inn = new BufferedReader(new InputStreamReader(install.getInputStream()));
@@ -95,6 +95,7 @@ public class SplashActiv extends Activity {
         dimensions.put("type", "load_application");
         dimensions.put("activity", "splash_screen");
         ParseAnalytics.trackEventInBackground("read", dimensions);
+
 
 
         new MainAsync(new AsyncResponse() {

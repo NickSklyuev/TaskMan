@@ -9,7 +9,6 @@ import android.util.Log;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
@@ -29,7 +28,7 @@ public class TabActivity extends ActionBarActivity {
 
 
 
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
+        //ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         ParsePush.subscribeInBackground("Everyone", new SaveCallback() {
             @Override

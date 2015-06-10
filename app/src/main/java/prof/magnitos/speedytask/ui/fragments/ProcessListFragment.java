@@ -261,7 +261,7 @@ public class ProcessListFragment extends Fragment {
         Map<String, String> dimensions = new HashMap<String, String>();
         dimensions.put("type", "load_list");
         dimensions.put("activity", "process_list");
-        ParseAnalytics.trackEventInBackground("read", dimensions);
+        //ParseAnalytics.trackEventInBackground("read", dimensions);
     }
 
 
